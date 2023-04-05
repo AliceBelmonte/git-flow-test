@@ -11,7 +11,7 @@ jobs:
       - name: Verificar nomes de arquivos HQL
         run: |
           pattern='^CHG[0-9]{8}_(D|P|S[1-5]|M[1-9]|[12][0-9]|3[01])_[A-Za-z0-9]+\.hql$' # define o padrão que o nome do arquivo deve seguir
-          for file in /c/Users/lehpa/OneDrive/Documentos/alice/git-flow-test/scripts/*.hql do # utiliza o caminho correto para o diretório onde os arquivos estão armazenados
+          for file in git-flow-test/scripts/*.hql do # utiliza o caminho correto para o diretório onde os arquivos estão armazenados
             if [[ ! "$file" =~ $pattern ]]; then
               echo "O arquivo $file não segue o padrão de nomenclatura esperado (CHG00000000_D_NOME.hql)"
               exit 1
