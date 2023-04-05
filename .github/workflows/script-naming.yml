@@ -24,7 +24,7 @@ jobs:
              if ! [[ $SCRIPT =~ CHG[0-9]{8}_(D|P|S[1-5]|(M([1-9]|(1[0-9]|2[0-9]|3[0-1]))))_[[:alnum:]_]+\.hql$ ]]
             then
               echo "ERROR: $SCRIPT has an invalid name"
-              rm "$SCRIPT"
+              git rm "$SCRIPT"
               exit 1
             fi
           done
