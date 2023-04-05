@@ -1,19 +1,17 @@
-name: Validar nome de arquivos HQL
+name: Validar nome dos scripts
 
-on:
-  push:
-    branches: [main]
+on: push
 
 jobs:
-  validar-nomes-hql:
+  validar-scripts:
     runs-on: ubuntu-latest
     steps:
-      - name: Verificar nomes de arquivos HQL
-        run: |
-          pattern='^CHG[0-9]{8}_(D|P|S[1-5]|M[1-9]|[12][0-9]|3[01])_[A-Za-z0-9]+\.hql$' # define o padrão que o nome do arquivo deve seguir
-          for file in $(git ls-files | grep -E '\.hql$'); do
-            if [[ ! "$file" =~ $pattern ]]; then
-              echo "O arquivo $file não segue o padrão de nomenclatura esperado (CHG00000000_D_NOME.hql)"
-              exit 1
-            fi
-          done
+    - name: Verificar nome dos scripts
+      run: |
+        shopt -s globstar
+        for file in scripts/**/*.hql; do
+          if [[ ! "$file" =~ ^CHG[0-9]{8}_(D|P|S[1-5]|M[1-9]|[12][0-9]|3[01])_[a-zA-Z0-9_]+\.hql$ ]]; then
+            echo "O nome do script $file não segue o padrão especificado."
+            exit 1
+          fi
+        done
