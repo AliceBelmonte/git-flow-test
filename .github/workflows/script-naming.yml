@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Verificar nomes de arquivos HQL
         run: |
-          pattern='^CHG[0-9]{8}_[DPSM][1-5M]?[0-9]?_[A-Z0-9_]+\.hql$' # define o padrão que o nome do arquivo deve seguir
+          pattern='^CHG[0-9]{8}_(D|P|S[1-5]|M[1-9]|[12][0-9]|3[01])_[A-Za-z0-9]+\.hql$' # define o padrão que o nome do arquivo deve seguirr
           for file in ./scripts/*.hql; do # altere o caminho para o diretório onde seus arquivos estão armazenados
             if [[ ! "$file" =~ $pattern ]]; then
               echo "O arquivo $file não segue o padrão de nomenclatura esperado (CHG00000000_D_NOME.hql)"
