@@ -1,17 +1,30 @@
-name: Validar nome dos scripts
-
-on: push
-
+name: validate-script-names
+on:
+  push:
+    branches:
+      - main
 jobs:
-  validar-scripts:
+  validate:
     runs-on: ubuntu-latest
     steps:
-    - name: Verificar nome dos scripts
-      run: |
-        shopt -s globstar
-        for file in scripts/**/*.hql; do
-          if [[ ! "$file" =~ ^CHG[0-9]{8}_(D|P|S[1-5]|M[1-9]|[12][0-9]|3[01])_[a-zA-Z0-9_]+\.hql$ ]]; then
-            echo "O nome do script $file não segue o padrão especificado."
-            exit 1
-          fi
-        done
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Find scripts
+        id: find_scripts
+        run: |
+          find scripts/ -type f -name "*.hql" > scripts_list.txt
+          cat scripts_list.txt
+
+      - name: Validate script names
+        run: |
+          SCRIPTS=$(cat scripts_list.txt)
+          for SCRIPT in $SCRIPTS
+          do
+            if ! [[ $SCRIPT =~ CHG[0-9]{8}_(D|P|S[1-5]|M[1-9]|[12][0-9]|3[01])_[[:alnum:]_]+\.hql$ ]]
+            then
+              echo "ERROR: $SCRIPT has an invalid name"
+              exit 1
+            fi
+          done
+
